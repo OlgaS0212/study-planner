@@ -1,0 +1,25 @@
+{
+  "name": "study-planner",
+  "version": "1.0.0",
+  "description": "Study Planner är ett digitalt hjälpmedel för studenter som samlar och presenterar relevant information om kurser på ett tydligt och lättillgängligt sätt.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlgaS0212/study-planner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/OlgaS0212/study-planner/issues"
+  },
+  "homepage": "https://github.com/OlgaS0212/study-planner#readme",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  }
+}
