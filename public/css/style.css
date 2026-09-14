@@ -239,3 +239,33 @@ body {
   margin: 6px 0;
   font-size: 14px;
 }
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.overview-card {
+  background: #8fd1cc;
+  padding: 22px;
+  border-radius: 20px;
+  min-height: 160px;
+}
+
+.overview-card h2 {
+  margin-top: 0;
+}
+
+.week-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+
+
+
+
