@@ -1,4 +1,7 @@
-// DB does not exist yet, so this route is not yet functional. It is just a placeholder for future development.
+/*
+DB does not exist yet, so this route is not yet functional.
+It is just a placeholder for future development.
+
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -92,5 +95,5 @@ router.post('/new', upload.single('c_image'), (req, res) => {
   }
 });
 
-
 module.exports = router;
+*/
