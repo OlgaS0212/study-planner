@@ -6,6 +6,7 @@
   <title>Study Planner</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
 
   <div class="layout">
@@ -23,23 +24,46 @@
     </div>
 
     <div class="overview-card">
-      <h2>Denna veckan</h2>
+  <h2>Denna veckan</h2>
 
-      <div class="week-item">
-        <span>Inlämning projektplan</span>
-        <span>Idag 23:59</span>
-      </div>
+  <div class="add-task-form">
+  <input
+    type="text"
+    id="new-task-input"
+    placeholder="Ny uppgift"
+  >
 
-      <div class="week-item">
-        <span>Prov Fysik</span>
-        <span>Onsdag 8:00</span>
-      </div>
+  <input
+    type="text"
+    id="new-task-date"
+    placeholder="Dag och tid"
+  >
 
-      <div class="week-item">
-        <span>Presentation Engelska</span>
-        <span>Fredag 9:15</span>
-      </div>
-    </div>
+  <button id="add-task-button">Lägg till</button>
+</div>
+
+  <div id="week-task-list">
+
+    <div class="week-item">
+  <span>Inlämning projektplan</span>
+  <span>Idag 23:59</span>
+  <button class="delete-task-button">Ta bort</button>
+</div>
+
+<div class="week-item">
+  <span>Prov Fysik</span>
+  <span>Onsdag 8:00</span>
+  <button class="delete-task-button">Ta bort</button>
+</div>
+
+<div class="week-item">
+  <span>Presentation Engelska</span>
+  <span>Fredag 9:15</span>
+  <button class="delete-task-button">Ta bort</button>
+</div>
+
+  </div>
+</div>
 
     <div class="overview-card">
       <h2>Kommande aktiviteter</h2>
@@ -54,6 +78,7 @@
   </div>
 </main>
 </div>
+<script src="/js/main.js"></script>
 
 </body>
 </html>
