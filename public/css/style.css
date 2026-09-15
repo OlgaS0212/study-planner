@@ -258,14 +258,34 @@ body {
 }
 
 .week-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 130px 80px;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 8px;
-  font-size: 14px;
 }
 
+.week-item span:nth-child(2) {
+  text-align: left;
+}
 
+.delete-task-button {
+  width: 72px;
+  padding: 4px 8px;
+}
 
+.add-task-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.add-task-form input {
+  flex: 1;
+}
+
+.week-item span:nth-child(2) {
+  font-size: 14px;
+}
 
 
