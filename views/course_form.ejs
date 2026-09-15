@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main class="new_course_main">
+        <section class="new_course_form">
+            <form action="/courses/new" method="POST" enctype="multipart/form-data">  <!-- Folder does not exist yet, until then this won't work -->
+
+                <!-- Course name -->
+                <label for="name">Namn</label>  
+                <input id="name" type="text" name="name" maxlength="50" required>
+
+                <!-- Course description -->
+                <label for="description">Beskrivning</label>  
+                <textarea id="description" name="description"></textarea>
+
+                <!-- Course image --> 
+                <label for="c_image">Bild</label>   <!-- image file is stored separately and its file-path is stored in the database -->
+                <input id="c_image" type="file" name="c_image" accept="image/*">
+
+                <!-- Course code -->
+                <label for="course_code">Kurskod</label>  
+                <input id="course_code" type="text" name="course_code" maxlength="15" required>
+
+                <!-- Course level -->
+                <label for="level">Nivå</label>  
+                <select id="level" name="level" required>
+                    <option value="" disabled selected>Välj nivå</option>
+                    <option value="Grundnivå">Grundnivå</option>
+                    <option value="Mellannivå">Mellannivå</option>
+                    <option value="Avancerad nivå">Avancerad nivå</option>
+                    <option value="Forskarnivå">Forskarnivå</option>
+                    <option value="Annat">Annat</option>
+                </select>
+
+                <!-- Teaching form -->
+                <label for="teaching_form">Undervisningsform</label>  
+                <select id="teaching_form" name="teaching_form" required>
+                    <option value="" disabled selected>Välj undervisningsform</option>
+                    <option value="Distans">Distans</option>
+                    <option value="Campus">Campus</option>
+                    <option value="Annat">Annat</option>
+                </select>
+
+                <!-- Study pace -->
+                <label for="study_pace">Studietakt</label>  
+                <select id="study_pace" name="study_pace" required>
+                    <option value="" disabled selected>Välj studietakt</option>
+                    <option value="100">100%</option>
+                    <option value="75">75%</option>
+                    <option value="50">50%</option>
+                    <option value="25">25%</option>
+                </select>
+
+                <!-- Grading scale -->
+                <label for="grading_scale">Betygsskala</label>  
+                <select id="grading_scale" name="grading_scale" required>
+                    <option value="" disabled selected>Välj betygsskala</option>
+                    <option value="MVG">U-MVG</option>
+                    <option value="VG">U-VG</option>
+                    <option value="P">U-P</option>
+                    <option value="A-F">A-F</option>
+                </select>
+
+                <button type="submit">Lägg till kurs</button>  <!-- Submit button -->
+
+            </form>
+        </section>
+
+    </main>
+</body>
+</html>
