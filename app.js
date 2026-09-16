@@ -26,6 +26,10 @@ app.get("/tasks", (req, res) => {
   res.render("tasks");
 });
 
+app.get("/register", (req, res) => {
+  res.render("login-register");
+});
+
 const PORT = 3000;
 
 app.listen(PORT, () => {
