@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const db = require("./database/db");
 
 const app = express();
 /*const courseRoutes = require("./public/js/course_form");*/
@@ -15,7 +16,10 @@ app.get("/", (req, res) => {
 
 
 app.get("/overview", (req, res) => {
-  res.render("overview");
+  const tasks = db.prepare("SELECT * FROM tasks").all();
+  
+
+  res.render("overview", { tasks });
 });
 
 app.get("/calendar", (req, res) => {
@@ -35,3 +39,6 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+

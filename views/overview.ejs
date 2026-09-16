@@ -44,25 +44,16 @@
 
   <div id="week-task-list">
 
+  <% tasks.forEach(task => { %>
     <div class="week-item">
-  <span>Inlämning projektplan</span>
-  <span>Idag 23:59</span>
-  <button class="delete-task-button">Ta bort</button>
+      <span><%= task.title %></span>
+      <span><%= task.deadline || "" %></span>
+      <button class="delete-task-button">Ta bort</button>
+    </div>
+  <% }) %>
+
 </div>
 
-<div class="week-item">
-  <span>Prov Fysik</span>
-  <span>Onsdag 8:00</span>
-  <button class="delete-task-button">Ta bort</button>
-</div>
-
-<div class="week-item">
-  <span>Presentation Engelska</span>
-  <span>Fredag 9:15</span>
-  <button class="delete-task-button">Ta bort</button>
-</div>
-
-  </div>
 </div>
 
     <div class="overview-card">
