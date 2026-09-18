@@ -413,4 +413,35 @@ body {
   font-size: 14px;
 }
 
+.task-page-card {
+  background: #8fd1cc;
+  padding: 24px;
+  border-radius: 20px;
+}
 
+.task-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.task-form input {
+  padding: 10px;
+  border: 1px solid #999;
+  border-radius: 6px;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.task-list-item {
+  display: grid;
+  grid-template-columns: 1fr 140px 80px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
