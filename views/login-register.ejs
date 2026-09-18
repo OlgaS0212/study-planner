@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skapa konto - Study Planner</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
 <div class="login-container">
     <div class="login-card">
 
@@ -7,7 +16,11 @@
             Skapa ett konto för att komma igång med Study Planner
         </p>
 
-        <form>
+        <% if (error) { %>
+            <p><%= error %></p>
+        <% } %>
+
+        <form method="POST" action="/register">
 
             <label for="firstName">Förnamn</label>
             <input
@@ -39,6 +52,7 @@
                 id="password"
                 name="password"
                 placeholder="Välj ett lösenord"
+                required
             >
 
             <label for="confirmPassword">Bekräfta lösenord</label>
@@ -47,9 +61,10 @@
                 id="confirmPassword"
                 name="confirmPassword"
                 placeholder="Upprepa ditt lösenord"
+                required
             >
 
-            <button type="button">
+            <button type="submit">
                 Skapa konto
             </button>
 
@@ -62,3 +77,5 @@
 
     </div>
 </div>
+</body>
+</html>
