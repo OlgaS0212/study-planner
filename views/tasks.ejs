@@ -19,7 +19,7 @@
 
   <h2>Lägg till en uppgift</h2>
 
-  <form class="task-form" action="/tasks" method="POST"></form>
+  <form class="task-form" action="/tasks" method="POST">
     <input
       type="text"
       name="title"
@@ -39,17 +39,34 @@
   <h2>Mina uppgifter</h2>
 
   <div class="task-list">
+
+  <% tasks.forEach(task => { %>
     <div class="task-list-item">
-      <span>Exempeluppgift</span>
-      <span>Fredag 12:00</span>
-      <button type="button">Klar</button>
+      <span><%= task.title %></span>
+      <span><%= task.deadline || "" %></span>
+
+      <form action="/tasks/<%= task.id %>/delete" method="POST">
+        <button type="submit" class="delete-task-button">
+          Ta bort
+        </button>
+      </form>
+
+      <form action="/tasks/<%= task.id %>/complete" method="POST">
+        <button type="submit" class="complete-task-button">
+          Klar
+        </button>
+      </form>
+
     </div>
-  </div>
+  <% }) %>
+
+</div>
 
 </div>
 </main>
 
   </div>
+  <script src="/js/main.js"></script>
 
 </body>
 </html>
