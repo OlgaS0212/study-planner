@@ -1,0 +1,144 @@
+main {
+    display: flex;
+}
+
+.main-content {
+    padding: 1rem;
+    width: 100%;
+}
+
+/* New course button */
+.new-course-button {
+    display: block;
+    width: fit-content;
+    margin-left: auto;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #69c8c4;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.new-course-button:hover {
+    background-color: white;
+    color: #69c8c4;
+}
+
+
+/* Course grid */
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.course-table tbody {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+
+/* Individual course card */
+.course-row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20%;
+    background-color: #69c8c4;
+    font-size: 1.25rem;
+    overflow: hidden;
+}
+
+
+/* Cells inside course card */
+.course-row td {
+    display: block;
+    padding: 0.5rem;
+    border-bottom: 1px solid black;
+}
+
+.course-row h2,
+.course-row p {
+    margin-top: 0;
+}
+
+.course-row td:last-child {
+    border-bottom: none;
+}
+
+
+.course-row td:first-child {
+    padding: 0;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    border-bottom: 1px solid black;
+}
+
+.course_image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Sidebar toggle button, should be moved to same css as sidebar */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1000;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    border-radius: 8px;
+    background-color: #69c8c4;
+    color: black;
+
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .course-table tbody {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .course-row {
+        width: 85%;
+        max-width: 350px;
+    }
+
+    /* Sidebar styles for mobile, should be moved to sidebar css */
+    .sidebar {
+        display: none;
+        padding-top: 4rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 999;
+    }
+
+    .sidebar.sidebar-open {
+        display: block;
+    }
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .main-content {
+        width: 100%;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+}

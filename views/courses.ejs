@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/courses.css">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Öppna meny"> <!-- temporary placement, will be moved to sidebar -->
+          ☰
+        </button>
+    <%- include('partials/sidebar') %>
+
+    <div class="main-content">
+        <a href="/courses/new" class="new-course-button">Skapa ny kurs</a>
+
+        <table class="course-table">
+            <tbody>
+                <% courses.forEach(course => { %>
+                    <tr class="course-row">
+                        <td>
+                            <% if (course.c_image) { %>
+                                <img class="course_image"
+                                    src="/images/courses/<%= course.c_image %>"
+                                    alt="Bild för <%= course.name %>"
+                                    width="100"
+                                >
+                            <% } else { %>
+                                Ingen bild
+                            <% } %>
+                        </td>
+
+                        <td>
+                            <h2>Kursnamn:</h2>
+                            <%= course.name %>
+                        </td>
+
+                        <td>
+                            <p><strong>Beskrivning:</strong></p>
+                            <%= course.description || 'Ingen beskrivning' %>
+                        </td>
+
+                        <td>
+                            <p><strong>Kurskod:</strong></p>
+                            <%= course.course_code || '-' %>
+                        </td>
+
+                        <td>
+                            <p><strong>Utbildningsnivå:</strong></p>
+                            <%= course.level || '-' %>
+                        </td>
+
+                        <td>
+                            <p><strong>Undervisningsform:</strong></p>
+                            <%= course.teaching_form || '-' %>
+                        </td>
+
+                        <td>
+                            <p><strong>Studietakt:</strong></p>
+                            <%= course.study_pace ? course.study_pace + '%' : '-' %>
+                        </td>
+
+                        <td>
+                            <p><strong>Betygsskala:</strong></p>
+                            <%= course.grading_scale || '-' %>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script>  // JavaScript to toggle the sidebar, will be moved to sidebar or a separate JS file later
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-open');
+    });
+</script>
+</body>
+</html>
