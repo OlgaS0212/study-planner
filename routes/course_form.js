@@ -1,13 +1,12 @@
-/*
-DB does not exist yet, so this route is not yet functional.
-It is just a placeholder for future development.
-
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
 
-const db = require('../../data/db');
+const db = require("../database/db");
 const router = express.Router();
+
+// Default user ID
+const DEFAULT_USER_ID = 1;
 
 // Upload configuration
 const upload = multer({
@@ -35,11 +34,9 @@ router.get('/', (req, res) => {
   });
 });
 
-// Courses/new
-
 // GET /courses/new
 router.get('/new', (req, res) => {
-  res.render('courses/new', {
+  res.render('course_form', {
     title: 'Lägg till kurs',
     type: 'course'
   });
@@ -59,6 +56,9 @@ router.post('/new', upload.single('c_image'), (req, res) => {
 
   const imageFilename = req.file?.filename ?? null;
 
+  // Use logged-in user if available, otherwise use default user
+  const userId = req.session?.userId ?? DEFAULT_USER_ID;
+
   try {
     db.prepare(`
       INSERT INTO courses (
@@ -69,9 +69,10 @@ router.post('/new', upload.single('c_image'), (req, res) => {
         level,
         teaching_form,
         study_pace,
-        grading_scale
+        grading_scale,
+        user_id
       )
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       name,
       description,
@@ -80,14 +81,16 @@ router.post('/new', upload.single('c_image'), (req, res) => {
       level,
       teaching_form,
       study_pace,
-      grading_scale
+      grading_scale,
+      userId
     );
 
-    res.redirect('/admin/courses');
+    res.redirect('/courses');
+
   } catch (error) {
     console.error(error);
 
-    res.render('courses/new', {
+    res.render('course_form', {
       title: 'Lägg till kurs',
       type: 'course',
       error: 'Kursen finns redan eller kunde inte sparas.'
@@ -96,4 +99,3 @@ router.post('/new', upload.single('c_image'), (req, res) => {
 });
 
 module.exports = router;
-*/
