@@ -40,6 +40,15 @@
       placeholder="Deadline"
   
     >
+    <select name="course_id" required>
+  <option value="" disabled selected>Välj kurs</option>
+
+  <% courses.forEach(course => { %>
+    <option value="<%= course.id %>">
+      <%= course.name %>
+    </option>
+  <% }) %>
+</select>
 
     <button type="submit">Lägg till</button>
   </form>
@@ -51,6 +60,7 @@
   <% tasks.forEach(task => { %>
     <div class="task-list-item">
       <span><%= task.title %></span>
+      <span><%= task.course_name %></span>
       <span><%= task.deadline || "" %></span>
 
       <form action="/tasks/<%= task.id %>/delete" method="POST">
