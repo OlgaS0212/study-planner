@@ -159,11 +159,14 @@ app.get("/tasks", requireLogin, (req, res) => {
     WHERE tasks.completed = 0
   `).all();
 
-  const courses = db
-    .prepare("SELECT * FROM courses")
-    .all();
+  const courses = db.prepare("SELECT * FROM courses").all();
 
-  res.render("tasks", { tasks, courses });
+  console.log("COURSES:", courses);
+
+  res.render("tasks", {
+    tasks: tasks,
+    courses: courses
+  });
 });
 
 // Add task
