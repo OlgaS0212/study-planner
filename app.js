@@ -1,13 +1,26 @@
 const express = require("express");
 const path = require("path");
 const crypto = require("crypto");
+const session = require("express-session");
 const db = require("./database/db");
 
 const app = express();
 
+// Import routes
+const courseRoutes = require("./routes/course_form");
+
+// Session configuration
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
 app.set("view engine", "ejs");
 
+// Middleware to serve static files
 app.use(express.static(path.join(__dirname, "public")));
+
+// Middleware to Parse form data
 app.use(express.urlencoded({ extended: false }));
 
 function hashPassword(password) {
@@ -31,6 +44,9 @@ function passwordMatches(password, storedPassword) {
     Buffer.from(storedHash, "hex")
   );
 }
+// Use routes
+app.use("/courses", courseRoutes);
+
 
 app.get("/", (req, res) => {
   res.render("index");
