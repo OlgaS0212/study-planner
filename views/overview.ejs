@@ -36,6 +36,7 @@
           <h2>Denna veckan</h2>
 
           <div class="add-task-form">
+
             <input
               type="text"
               id="new-task-input"
@@ -48,9 +49,22 @@
               placeholder="Dag och tid"
             >
 
+            <select id="new-task-course">
+              <option value="" disabled selected>
+                Välj kurs
+              </option>
+
+              <% courses.forEach(course => { %>
+                <option value="<%= course.id %>">
+                  <%= course.name %>
+                </option>
+              <% }) %>
+            </select>
+
             <button id="add-task-button">
               Lägg till
             </button>
+
           </div>
 
           <div id="week-task-list">
@@ -59,6 +73,7 @@
 
               <div class="week-item">
                 <span><%= task.title %></span>
+                <span><%= task.course_name %></span>
                 <span><%= task.deadline || "" %></span>
 
                 <button class="delete-task-button">

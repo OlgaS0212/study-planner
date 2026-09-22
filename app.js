@@ -81,7 +81,6 @@ app.post("/login", (req, res) => {
     });
   }
 
-  // Remember logged-in user
   req.session.userId = user.id;
 
   res.redirect("/overview");
@@ -126,43 +125,75 @@ app.post("/register", (req, res) => {
   res.redirect("/login");
 });
 
-// Protected overview
+// Overview
 app.get("/overview", requireLogin, (req, res) => {
-  const tasks = db.prepare("SELECT * FROM tasks").all();
+  const tasks = db.prepare(`
+    SELECT
+      tasks.*,
+      courses.name AS course_name
+    FROM tasks
+    JOIN courses ON tasks.course_id = courses.id
+    WHERE tasks.completed = 0
+  `).all();
 
-  res.render("overview", { tasks });
+  const courses = db
+    .prepare("SELECT * FROM courses")
+    .all();
+
+  res.render("overview", { tasks, courses });
 });
 
-// Protected calendar
+// Calendar
 app.get("/calendar", requireLogin, (req, res) => {
   res.render("calendar");
 });
 
-// Protected tasks
+// Tasks
 app.get("/tasks", requireLogin, (req, res) => {
-  const tasks = db
-    .prepare("SELECT * FROM tasks WHERE completed = 0")
+  const tasks = db.prepare(`
+    SELECT
+      tasks.*,
+      courses.name AS course_name
+    FROM tasks
+    JOIN courses ON tasks.course_id = courses.id
+    WHERE tasks.completed = 0
+  `).all();
+
+  const courses = db
+    .prepare("SELECT * FROM courses")
     .all();
 
-  res.render("tasks", { tasks });
+  res.render("tasks", { tasks, courses });
 });
 
+// Add task
 app.post("/tasks", requireLogin, (req, res) => {
   const title = req.body.title?.trim();
   const deadline = req.body.deadline?.trim();
+  const courseId = req.body.course_id;
 
-  if (!title) {
+  if (!title || !courseId) {
     return res.redirect("/tasks");
   }
 
   db.prepare(`
-    INSERT INTO tasks (title, deadline, completed, course_id)
-    VALUES (?, ?, 0, 1)
-  `).run(title, deadline || null);
+    INSERT INTO tasks (
+      title,
+      deadline,
+      completed,
+      course_id
+    )
+    VALUES (?, ?, 0, ?)
+  `).run(
+    title,
+    deadline || null,
+    courseId
+  );
 
   res.redirect("/tasks");
 });
 
+// Complete task
 app.post("/tasks/:id/complete", requireLogin, (req, res) => {
   const taskId = req.params.id;
 
@@ -175,6 +206,7 @@ app.post("/tasks/:id/complete", requireLogin, (req, res) => {
   res.redirect("/tasks");
 });
 
+// Delete task
 app.post("/tasks/:id/delete", requireLogin, (req, res) => {
   const taskId = req.params.id;
 
@@ -188,11 +220,14 @@ app.post("/tasks/:id/delete", requireLogin, (req, res) => {
 
 // Protected course routes
 app.use("/courses", requireLogin, courseRoutes);
+
+// Logout
 app.post("/logout", (req, res) => {
   req.session.destroy(() => {
     res.redirect("/");
   });
 });
+
 const PORT = 3000;
 
 app.listen(PORT, () => {
