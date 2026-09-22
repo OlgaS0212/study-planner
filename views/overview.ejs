@@ -14,62 +14,81 @@
     <%- include("partials/sidebar") %>
 
     <main class="main-content">
-  <h1>Hej Emma!</h1>
 
-  <div class="overview-grid">
+      <div class="overview-header">
+        <h1>Hej Emma!</h1>
 
-    <div class="overview-card">
-      <h2>Dagens uppgifter</h2>
-      <p>Här kommer dagens uppgifter senare.</p>
-    </div>
+        <form action="/logout" method="POST">
+          <button type="submit" class="logout-button">
+            Logga ut
+          </button>
+        </form>
+      </div>
 
-    <div class="overview-card">
-  <h2>Denna veckan</h2>
+      <div class="overview-grid">
 
-  <div class="add-task-form">
-  <input
-    type="text"
-    id="new-task-input"
-    placeholder="Ny uppgift"
-  >
+        <div class="overview-card">
+          <h2>Dagens uppgifter</h2>
+          <p>Här kommer dagens uppgifter senare.</p>
+        </div>
 
-  <input
-    type="text"
-    id="new-task-date"
-    placeholder="Dag och tid"
-  >
+        <div class="overview-card">
+          <h2>Denna veckan</h2>
 
-  <button id="add-task-button">Lägg till</button>
-</div>
+          <div class="add-task-form">
+            <input
+              type="text"
+              id="new-task-input"
+              placeholder="Ny uppgift"
+            >
 
-  <div id="week-task-list">
+            <input
+              type="text"
+              id="new-task-date"
+              placeholder="Dag och tid"
+            >
 
-  <% tasks.forEach(task => { %>
-    <div class="week-item">
-      <span><%= task.title %></span>
-      <span><%= task.deadline || "" %></span>
-      <button class="delete-task-button">Ta bort</button>
-    </div>
-  <% }) %>
+            <button id="add-task-button">
+              Lägg till
+            </button>
+          </div>
 
-</div>
+          <div id="week-task-list">
 
-</div>
+            <% tasks.forEach(task => { %>
 
-    <div class="overview-card">
-      <h2>Kommande aktiviteter</h2>
-      <p>Här kommer aktiviteter senare.</p>
-    </div>
+              <div class="week-item">
+                <span><%= task.title %></span>
+                <span><%= task.deadline || "" %></span>
 
-    <div class="overview-card">
-      <h2>Senast aktivitet</h2>
-      <p>Här kommer senaste aktivitet senare.</p>
-    </div>
+                <button class="delete-task-button">
+                  Ta bort
+                </button>
+              </div>
+
+            <% }) %>
+
+          </div>
+
+        </div>
+
+        <div class="overview-card">
+          <h2>Kommande aktiviteter</h2>
+          <p>Här kommer aktiviteter senare.</p>
+        </div>
+
+        <div class="overview-card">
+          <h2>Senast aktivitet</h2>
+          <p>Här kommer senaste aktivitet senare.</p>
+        </div>
+
+      </div>
+
+    </main>
 
   </div>
-</main>
-</div>
-<script src="/js/main.js"></script>
+
+  <script src="/js/main.js"></script>
 
 </body>
 </html>

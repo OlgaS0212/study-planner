@@ -10,17 +10,20 @@ const app = express();
 const courseRoutes = require("./routes/course_form");
 
 // Session configuration
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
 app.set("view engine", "ejs");
 
-// Middleware to serve static files
+// Static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Middleware to Parse form data
+// Parse form data
 app.use(express.urlencoded({ extended: false }));
 
 function hashPassword(password) {
@@ -44,71 +47,22 @@ function passwordMatches(password, storedPassword) {
     Buffer.from(storedHash, "hex")
   );
 }
-// Use routes
-app.use("/courses", courseRoutes);
 
+// Protect pages that require login
+function requireLogin(req, res, next) {
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
 
+  next();
+}
+
+// Public start page
 app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/overview", (req, res) => {
-  const tasks = db.prepare("SELECT * FROM tasks").all();
-
-  res.render("overview", { tasks });
-});
-
-app.get("/calendar", (req, res) => {
-  res.render("calendar");
-});
-
-app.get("/tasks", (req, res) => {
-  const tasks = db
-    .prepare("SELECT * FROM tasks WHERE completed = 0")
-    .all();
-
-  res.render("tasks", { tasks });
-});
-
-app.post("/tasks", (req, res) => {
-  const title = req.body.title?.trim();
-  const deadline = req.body.deadline?.trim();
-
-  if (!title) {
-    return res.redirect("/tasks");
-  }
-
-  db.prepare(`
-    INSERT INTO tasks (title, deadline, completed, course_id)
-    VALUES (?, ?, 0, 1)
-  `).run(title, deadline || null);
-
-  res.redirect("/tasks");
-});
-
-app.post("/tasks/:id/complete", (req, res) => {
-  const taskId = req.params.id;
-
-  db.prepare(`
-    UPDATE tasks
-    SET completed = 1
-    WHERE id = ?
-  `).run(taskId);
-
-  res.redirect("/tasks");
-});
-
-app.post("/tasks/:id/delete", (req, res) => {
-  const taskId = req.params.id;
-
-  db.prepare(`
-    DELETE FROM tasks
-    WHERE id = ?
-  `).run(taskId);
-
-  res.redirect("/tasks");
-});
-
+// Login
 app.get("/login", (req, res) => {
   res.render("login", { error: null });
 });
@@ -127,9 +81,13 @@ app.post("/login", (req, res) => {
     });
   }
 
+  // Remember logged-in user
+  req.session.userId = user.id;
+
   res.redirect("/overview");
 });
 
+// Register
 app.get("/register", (req, res) => {
   res.render("login-register", { error: null });
 });
@@ -168,13 +126,78 @@ app.post("/register", (req, res) => {
   res.redirect("/login");
 });
 
+// Protected overview
+app.get("/overview", requireLogin, (req, res) => {
+  const tasks = db.prepare("SELECT * FROM tasks").all();
+
+  res.render("overview", { tasks });
+});
+
+// Protected calendar
+app.get("/calendar", requireLogin, (req, res) => {
+  res.render("calendar");
+});
+
+// Protected tasks
+app.get("/tasks", requireLogin, (req, res) => {
+  const tasks = db
+    .prepare("SELECT * FROM tasks WHERE completed = 0")
+    .all();
+
+  res.render("tasks", { tasks });
+});
+
+app.post("/tasks", requireLogin, (req, res) => {
+  const title = req.body.title?.trim();
+  const deadline = req.body.deadline?.trim();
+
+  if (!title) {
+    return res.redirect("/tasks");
+  }
+
+  db.prepare(`
+    INSERT INTO tasks (title, deadline, completed, course_id)
+    VALUES (?, ?, 0, 1)
+  `).run(title, deadline || null);
+
+  res.redirect("/tasks");
+});
+
+app.post("/tasks/:id/complete", requireLogin, (req, res) => {
+  const taskId = req.params.id;
+
+  db.prepare(`
+    UPDATE tasks
+    SET completed = 1
+    WHERE id = ?
+  `).run(taskId);
+
+  res.redirect("/tasks");
+});
+
+app.post("/tasks/:id/delete", requireLogin, (req, res) => {
+  const taskId = req.params.id;
+
+  db.prepare(`
+    DELETE FROM tasks
+    WHERE id = ?
+  `).run(taskId);
+
+  res.redirect("/tasks");
+});
+
+// Protected course routes
+app.use("/courses", requireLogin, courseRoutes);
+app.post("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
+});
 const PORT = 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
-
-
 
 
 
