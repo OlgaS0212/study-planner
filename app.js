@@ -144,7 +144,7 @@ app.get("/overview", requireLogin, (req, res) => {
 });
 
 // Calendar
-app.get("/calendar", (req, res) => {
+app.get("/calendar", requireLogin, (req, res) => {
 
     const tasks = db.prepare(`
         SELECT tasks.*, courses.name AS course_name
