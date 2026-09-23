@@ -212,11 +212,16 @@ app.post("/tasks/:id/complete", requireLogin, (req, res) => {
 // Delete task
 app.post("/tasks/:id/delete", requireLogin, (req, res) => {
   const taskId = req.params.id;
+  const from = req.body.from;
 
   db.prepare(`
     DELETE FROM tasks
     WHERE id = ?
   `).run(taskId);
+
+  if (from === "overview") {
+    return res.redirect("/overview");
+  }
 
   res.redirect("/tasks");
 });
