@@ -145,7 +145,15 @@ app.get("/overview", requireLogin, (req, res) => {
 
 // Calendar
 app.get("/calendar", requireLogin, (req, res) => {
-  res.render("calendar");
+
+    const tasks = db.prepare(`
+        SELECT tasks.*, courses.name AS course_name
+        FROM tasks
+        LEFT JOIN courses ON tasks.course_id = courses.id
+        ORDER BY deadline ASC
+    `).all();
+
+    res.render("calendar", { tasks });
 });
 
 // Tasks

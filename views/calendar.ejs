@@ -1,23 +1,92 @@
 <!DOCTYPE html>
+
 <html lang="sv">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Study Planner</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kalender - Study Planner</title>
+
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
 
-  <div class="layout">
+    <div class="layout">
 
-    <%- include("partials/sidebar") %>
+        <%- include("partials/sidebar") %>
 
-    <main class="main-content">
-  <h1>Kalender</h1>
-  <p>Här kommer kalendern senare.</p>
-</main>
+        <main class="main-content">
 
-  </div>
+            <div class="calendar-header">
+
+                <button id="prev-month">←</button>
+
+                <h1 id="month-year"></h1>
+
+                <button id="next-month">→</button>
+
+            </div>
+
+            <div class="calendar">
+
+                <div class="calendar-weekdays">
+                    <div>Mån</div>
+                    <div>Tis</div>
+                    <div>Ons</div>
+                    <div>Tor</div>
+                    <div>Fre</div>
+                    <div>Lör</div>
+                    <div>Sön</div>
+                </div>
+
+                <div id="calendar-days" class="calendar-days"></div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script>
+
+        const tasks = <%- JSON.stringify(tasks) %>;
+
+        const calendarDays = document.getElementById("calendar-days");
+        const monthYear = document.getElementById("month-year");
+
+        let currentDate = new Date();
+
+        function renderCalendar() {
+
+            calendarDays.innerHTML = "";
+
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            const monthNames = [
+                "Januari",
+                "Februari",
+                "Mars",
+                "April",
+                "Maj",
+                "Juni",
+                "Juli",
+                "Augusti",
+                "September",
+                "Oktober",
+                "November",
+                "December"
+            ];
+
+            monthYear.textContent = `${monthNames[month]} ${year}`;
+
+            // resten av JavaScript...
+        }
+
+    </script>
 
 </body>
+
 </html>
