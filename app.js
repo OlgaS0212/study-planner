@@ -234,6 +234,49 @@ app.post("/tasks/:id/delete", requireLogin, (req, res) => {
   res.redirect("/tasks");
 });
 
+app.get("/tasks/:id/edit", requireLogin, (req, res) => {
+  const taskId = req.params.id;
+
+  const task = db.prepare(`
+    SELECT * FROM tasks
+    WHERE id = ?
+  `).get(taskId);
+
+  const courses = db.prepare(`
+    SELECT * FROM courses
+  `).all();
+
+  res.render("edit-task", {
+    task,
+    courses
+  });
+});
+
+
+app.post("/tasks/:id/edit", requireLogin, (req, res) => {
+  const taskId = req.params.id;
+  const title = req.body.title?.trim();
+  const deadline = req.body.deadline?.trim();
+  const courseId = req.body.course_id;
+
+  if (!title || !courseId) {
+    return res.redirect(`/tasks/${taskId}/edit`);
+  }
+
+  db.prepare(`
+    UPDATE tasks
+    SET title = ?, deadline = ?, course_id = ?
+    WHERE id = ?
+  `).run(
+    title,
+    deadline || null,
+    courseId,
+    taskId
+  );
+
+  res.redirect("/tasks");
+});
+
 // Protected course routes
 app.use("/courses", requireLogin, courseRoutes);
 
