@@ -76,9 +76,11 @@
                 <span><%= task.course_name %></span>
                 <span><%= task.deadline || "" %></span>
 
-                <button class="delete-task-button">
-                  Ta bort
-                </button>
+                <form action="/tasks/<%= task.id %>/delete" method="POST">
+             <button type="submit" class="delete-task-button">
+                   Ta bort
+             </button>
+                </form>
               </div>
 
             <% }) %>
