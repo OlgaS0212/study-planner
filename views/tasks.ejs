@@ -63,6 +63,10 @@
       <span><%= task.course_name %></span>
       <span><%= task.deadline || "" %></span>
 
+      <a href="/tasks/<%= task.id %>/edit" class="edit-task-button">
+        Redigera
+      </a>
+
       <form action="/tasks/<%= task.id %>/delete" method="POST">
         <button type="submit" class="delete-task-button">
           Ta bort

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redigera uppgift</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <div class="layout">
+
+    <%- include("partials/sidebar") %>
+
+    <main class="main-content">
+
+      <h1>Redigera uppgift</h1>
+
+      <form action="/tasks/<%= task.id %>/edit" method="POST" class="task-form">
+
+        <input
+          type="text"
+          name="title"
+          value="<%= task.title %>"
+          required
+        >
+
+        <input
+          type="text"
+          name="deadline"
+          value="<%= task.deadline || '' %>"
+          placeholder="Deadline"
+        >
+
+        <select name="course_id" required>
+
+          <% courses.forEach(course => { %>
+            <option
+              value="<%= course.id %>"
+              <%= course.id === task.course_id ? "selected" : "" %>
+            >
+              <%= course.name %>
+            </option>
+          <% }) %>
+
+        </select>
+
+        <button type="submit">Spara</button>
+
+      </form>
+
+    </main>
+
+  </div>
+
+</body>
+</html>
