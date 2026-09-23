@@ -180,7 +180,7 @@ app.get("/tasks", requireLogin, (req, res) => {
 // Add task
 app.post("/tasks", requireLogin, (req, res) => {
   const title = req.body.title?.trim();
-  const deadline = req.body.deadline?.trim();
+  const deadline = req.body.deadline?.trim().replace("T", " ");
   const courseId = req.body.course_id;
 
   if (!title || !courseId) {
@@ -256,7 +256,7 @@ app.get("/tasks/:id/edit", requireLogin, (req, res) => {
 app.post("/tasks/:id/edit", requireLogin, (req, res) => {
   const taskId = req.params.id;
   const title = req.body.title?.trim();
-  const deadline = req.body.deadline?.trim();
+  const deadline = req.body.deadline?.trim().replace("T", " ");
   const courseId = req.body.course_id;
 
   if (!title || !courseId) {

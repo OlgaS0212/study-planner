@@ -26,10 +26,9 @@
         >
 
         <input
-          type="text"
+          type="datetime-local"
           name="deadline"
-          value="<%= task.deadline || '' %>"
-          placeholder="Deadline"
+          value="<%= task.deadline ? task.deadline.replace(' ', 'T') : '' %>"
         >
 
         <select name="course_id" required>
