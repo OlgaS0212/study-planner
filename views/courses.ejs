@@ -40,10 +40,26 @@
                                 Ingen bild
                             <% } %>
                         </td>
+                        <td>  <!-- Delete button -->
+                            <form
+                                action="/courses/<%= course.id %>/delete"
+                                method="POST"
+                                style="display: inline;"
+                                onsubmit="deleteCourse(event, this);"
+                            >
+                                <button type="submit" class="course-button">
+                                    Radera
+                                </button>
+                            </form>
+                            <a href="/courses/<%= course.id %>" class="course-link">
+                                <button class="course-button">Visa kurs</button>
+                            </a>
+
+                        </td>
 
                         <td>
                             <h2>Kursnamn:</h2>
-                            <%= course.name %>
+                            <%= course.name %> 
                         </td>
 
                         <td>
@@ -82,13 +98,72 @@
     </div>
 </main>
 
-<script>  // JavaScript to toggle the sidebar, will be moved to sidebar or a separate JS file later
+<script>  
+// JavaScript to toggle the sidebar, will be moved to sidebar or a separate JS file later
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.querySelector('.sidebar');
 
     sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('sidebar-open');
     });
+
+
+// JavaScript to handle course deletion
+    async function deleteCourse(event, form) {
+    event.preventDefault();
+
+    if (!confirm('Är du säker på att du vill radera denna kurs?')) {
+        return;
+    }
+
+    try {
+        // First request: check if the course has tasks
+        let response = await fetch(form.action, {
+            method: 'POST'
+        });
+
+        let result = await response.json();
+
+        console.log('First delete response:', result);
+
+        // Course has tasks
+        if (result.hasTasks) {
+            const deleteTasks = confirm(
+                `Kursen har ${result.taskCount} uppgift(er) kopplade till sig.\n\n` +
+                'Vill du radera kursen och alla dess uppgifter?'
+            );
+
+            if (!deleteTasks) {
+                return;
+            }
+
+            // User confirmed: delete tasks AND course
+            response = await fetch(`${form.action}?deleteTasks=true`, {
+                method: 'POST'
+            });
+
+            result = await response.json();
+
+            console.log('Second delete response:', result);
+        }
+
+        if (result.success) {
+            form.closest('.course-row')?.remove();
+            alert(result.message);
+        } else {
+            alert(result.message || 'Kunde inte radera kursen.');
+        }
+
+    } catch (error) {
+        console.error('Delete error:', error);
+        alert('Ett fel uppstod.');
+    }
+}
+
+
+
+
+
 </script>
 </body>
 </html>
