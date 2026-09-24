@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Parse form data
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 function hashPassword(password) {
   const salt = crypto.randomBytes(16).toString("hex");
