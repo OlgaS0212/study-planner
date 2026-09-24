@@ -25,6 +25,12 @@ main {
     color: #69c8c4;
 }
 
+.course-button {
+    width: fit-content;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
 
 /* Course grid */
 .course-table {
