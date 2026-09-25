@@ -144,15 +144,27 @@ app.get("/overview", requireLogin, (req, res) => {
   res.render("overview", { tasks, courses });
 });
 
-// Calendar
-app.get("/calendar", requireLogin, (req, res) => {
+app.get("/calendar", (req, res) => {
+
+    // Kontrollera att användaren är inloggad
+    if (!req.session.userId) {
+        return res.redirect("/login");
+    }
 
     const tasks = db.prepare(`
-        SELECT tasks.*, courses.name AS course_name
+        SELECT 
+            tasks.id,
+            tasks.title,
+            tasks.deadline,
+            tasks.completed,
+            tasks.course_id,
+            courses.name AS course_name
         FROM tasks
-        LEFT JOIN courses ON tasks.course_id = courses.id
-        ORDER BY deadline ASC
-    `).all();
+        JOIN courses 
+            ON tasks.course_id = courses.id
+        WHERE courses.user_id = ?
+        ORDER BY tasks.deadline ASC
+    `).all(req.session.userId);
 
     res.render("calendar", { tasks });
 });
