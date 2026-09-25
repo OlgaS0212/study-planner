@@ -51,41 +51,123 @@
 
     <script>
 
-        const tasks = <%- JSON.stringify(tasks) %>;
+    const tasks = <%- JSON.stringify(tasks) %>;
 
-        const calendarDays = document.getElementById("calendar-days");
-        const monthYear = document.getElementById("month-year");
+    const calendarDays = document.getElementById("calendar-days");
+    const monthYear = document.getElementById("month-year");
 
-        let currentDate = new Date();
+    let currentDate = new Date();
 
-        function renderCalendar() {
+    function renderCalendar() {
 
-            calendarDays.innerHTML = "";
+        calendarDays.innerHTML = "";
 
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
 
-            const monthNames = [
-                "Januari",
-                "Februari",
-                "Mars",
-                "April",
-                "Maj",
-                "Juni",
-                "Juli",
-                "Augusti",
-                "September",
-                "Oktober",
-                "November",
-                "December"
-            ];
+        const monthNames = [
+            "Januari",
+            "Februari",
+            "Mars",
+            "April",
+            "Maj",
+            "Juni",
+            "Juli",
+            "Augusti",
+            "September",
+            "Oktober",
+            "November",
+            "December"
+        ];
 
-            monthYear.textContent = `${monthNames[month]} ${year}`;
+        monthYear.textContent = `${monthNames[month]} ${year}`;
 
-            // resten av JavaScript...
+        let firstDay = new Date(year, month, 1).getDay();
+
+        if (firstDay === 0) {
+            firstDay = 7;
         }
 
-    </script>
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        // Tomma rutor innan månadens första dag
+        for (let i = 1; i < firstDay; i++) {
+
+            const emptyDay = document.createElement("div");
+
+            emptyDay.classList.add("calendar-day", "empty");
+
+            calendarDays.appendChild(emptyDay);
+        }
+
+        // Skapa alla dagar
+        for (let day = 1; day <= daysInMonth; day++) {
+
+            const dayElement = document.createElement("div");
+
+            dayElement.classList.add("calendar-day");
+
+            const dateString =
+                `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+            // Datum
+            const dateNumber = document.createElement("div");
+
+            dateNumber.classList.add("date-number");
+
+            dateNumber.textContent = day;
+
+            dayElement.appendChild(dateNumber);
+
+            // Hitta tasks för detta datum
+            const dayTasks = tasks.filter(task => {
+
+                if (!task.deadline) {
+                    return false;
+                }
+
+                return task.deadline.substring(0, 10) === dateString;
+            });
+
+            // Visa tasks
+            dayTasks.forEach(task => {
+
+                const taskElement = document.createElement("div");
+
+                taskElement.classList.add("calendar-task");
+
+                taskElement.textContent = task.title;
+
+                dayElement.appendChild(taskElement);
+            });
+
+            calendarDays.appendChild(dayElement);
+        }
+    }
+
+
+    // Föregående månad
+    document.getElementById("prev-month").addEventListener("click", () => {
+
+        currentDate.setMonth(currentDate.getMonth() - 1);
+
+        renderCalendar();
+    });
+
+
+    // Nästa månad
+    document.getElementById("next-month").addEventListener("click", () => {
+
+        currentDate.setMonth(currentDate.getMonth() + 1);
+
+        renderCalendar();
+    });
+
+
+    // Visa aktuell månad
+    renderCalendar();
+
+</script>
 
 </body>
 
