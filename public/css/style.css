@@ -590,3 +590,42 @@ body {
   cursor: pointer;
 }
 
+
+/* Anpassning för mobil */
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 24px 20px;
+  }
+
+  .sidebar {
+  width: 160px;
+  padding: 20px 12px;
+}
+
+.sidebar a {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .task-list-item {
+    grid-template-columns: 1fr 120px 100px;
+  }
+
+  .task-form {
+    flex-wrap: wrap;
+  }
+
+  .task-form input,
+  .task-form select {
+    flex: 1 1 200px;
+  }
+}
