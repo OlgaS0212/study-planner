@@ -3,11 +3,10 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+// Import the database connection
 const db = require("../database/db");
 const router = express.Router();
 
-// Default user ID
-const DEFAULT_USER_ID = 1;
 
 // Upload configuration
 const upload = multer({
@@ -40,7 +39,7 @@ router.get('/', (req, res) => {
 router.post('/:id/delete', (req, res) => {
     const courseId = req.params.id;
 
-    // Get course first so we know its image filename
+    // Get course first to retrieve image filename
     const course = db
         .prepare('SELECT c_image FROM courses WHERE id = ?')
         .get(courseId);
@@ -52,6 +51,7 @@ router.post('/:id/delete', (req, res) => {
         });
     }
 
+    // Check if course has tasks
     const taskCount = db
         .prepare(
             'SELECT COUNT(*) AS taskCount FROM tasks WHERE course_id = ?'
@@ -78,13 +78,12 @@ router.post('/:id/delete', (req, res) => {
             'DELETE FROM courses WHERE id = ?'
         );
 
+        // Use a transaction to ensure both deletions happen together
         const transaction = db.transaction(() => {
             const tasksDeleted = deleteTasks.run(courseId);
-
             console.log('Tasks deleted:', tasksDeleted.changes);
 
             const courseDeleted = deleteCourse.run(courseId);
-
             console.log('Course deleted:', courseDeleted.changes);
 
             return courseDeleted;
@@ -109,6 +108,7 @@ router.post('/:id/delete', (req, res) => {
             }
         }
 
+        // Return JSON response
         return res.json({
             success: result.changes > 0,
             message: result.changes > 0
@@ -117,7 +117,7 @@ router.post('/:id/delete', (req, res) => {
         });
     }
 
-    // No tasks → delete course directly
+    // No tasks > delete course directly
     const result = db
         .prepare('DELETE FROM courses WHERE id = ?')
         .run(courseId);
@@ -139,6 +139,7 @@ router.post('/:id/delete', (req, res) => {
         }
     }
 
+    // Return JSON response
     return res.json({
         success: result.changes > 0,
         message: result.changes > 0
@@ -170,8 +171,8 @@ router.post('/new', upload.single('c_image'), (req, res) => {
 
   const imageFilename = req.file?.filename ?? null;
 
-  // Use logged-in user if available, otherwise use default user
-  const userId = req.session?.userId ?? DEFAULT_USER_ID;
+  // Use logged-in user's ID
+  const userId = req.session?.userId ?? null;
 
   try {
     db.prepare(`

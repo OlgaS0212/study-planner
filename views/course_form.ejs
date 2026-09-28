@@ -11,7 +11,7 @@
 <body>
     <main class="new_course_main">
         <section class="new_course_form">
-            <form action="/courses/new" method="POST" enctype="multipart/form-data">  <!-- Folder does not exist yet, until then this won't work -->
+            <form action="/courses/new" method="POST" enctype="multipart/form-data">
 
                 <!-- Course name -->
                 <label for="name">Namn</label>  
@@ -22,7 +22,7 @@
                 <textarea id="description" name="description"></textarea>
 
                 <!-- Course image --> 
-                <label for="c_image">Bild</label>   <!-- image file is stored separately and its file-path is stored in the database -->
+                <label for="c_image">Bild</label>   <!-- image is stored separately, file-path is stored in db -->
                 <input id="c_image" type="file" name="c_image" accept="image/*">
 
                 <!-- Course code -->
@@ -69,7 +69,8 @@
                     <option value="A-F">A-F</option>
                 </select>
 
-                <button type="submit">Lägg till kurs</button>  <!-- Submit button -->
+                <!-- Submit button -->
+                <button type="submit">Lägg till kurs</button>
 
             </form>
         </section>

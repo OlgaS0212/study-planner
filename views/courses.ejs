@@ -144,6 +144,7 @@
             console.log('Second delete response:', result);
         }
 
+        // Remove the course row from the table if deletion was successful
         if (result.success) {
             form.closest('.course-row')?.remove();
             alert(result.message);
@@ -151,15 +152,12 @@
             alert(result.message || 'Kunde inte radera kursen.');
         }
 
+    // Error handling
     } catch (error) {
         console.error('Delete error:', error);
         alert('Ett fel uppstod.');
     }
 }
-
-
-
-
 
 </script>
 </body>
