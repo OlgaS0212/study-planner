@@ -1,0 +1,17 @@
+.features {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid #70bdb8;
+  border-bottom: 1px solid #70bdb8;
+  background: #9edbd6;
+}
+
+.feature-box {
+  padding: 24px;
+  text-align: center;
+  border-right: 1px solid #70bdb8;
+}
+
+.feature-box:last-child {
+  border-right: none;
+}

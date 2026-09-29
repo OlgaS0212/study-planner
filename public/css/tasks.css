@@ -1,0 +1,72 @@
+/* Styles for smaller screens */
+@media (max-width: 1080px) {
+  .task-list-item {
+    grid-template-columns: 1fr 120px 100px;
+  }
+
+  .task-form {
+    flex-wrap: wrap;
+  }
+
+  .task-form input,
+  .task-form select {
+    flex: 1 1 200px;
+  }
+}
+
+/* Styles for mobile screens */
+@media (max-width: 480px) {
+  .add-task-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .add-task-form input,
+  .add-task-form select,
+  .add-task-form button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .week-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .task-page-card {
+    width: 100%;
+    padding: 14px;
+    box-sizing: border-box;
+  }
+
+  .task-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .task-form input,
+  .task-form select,
+  .task-form button {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .task-list-item {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .task-list-item form {
+    width: 100%;
+  }
+
+  .edit-task-button,
+  .delete-task-button,
+  .complete-task-button {
+    width: 100%;
+  }
+}

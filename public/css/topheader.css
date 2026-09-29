@@ -1,0 +1,59 @@
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px;
+  border-bottom: 1px solid #4a9f9a;
+  background: #9edbd6;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+}
+
+.logo-placeholder {
+  width: 52px;
+  height: 34px;
+  border: 2px solid #333;
+}
+
+.top-nav {
+  display: flex;
+  gap: 28px;
+}
+
+.top-nav a {
+  color: #222;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.login-button,
+.primary-button,
+.secondary-button,
+.add-course-button {
+  padding: 10px 18px;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+
+.login-button,
+.secondary-button,
+.add-course-button {
+  background: #f8f5f2;
+}
+
+.primary-button {
+  background: #2f6f6b;
+  color: white;
+  border: 1px solid #2f6f6b;
+}
