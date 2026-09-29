@@ -141,6 +141,7 @@ app.get("/overview", requireLogin, (req, res) => {
 
   const startOfWeek = monday.toISOString().slice(0, 10);
   const endOfWeek = sunday.toISOString().slice(0, 10);
+  const todayDate = today.toISOString().slice(0, 10);
 
   const tasks = db.prepare(`
     SELECT
@@ -153,14 +154,39 @@ app.get("/overview", requireLogin, (req, res) => {
     ORDER BY tasks.deadline ASC
   `).all(startOfWeek, endOfWeek);
 
-  console.log("WEEK:", startOfWeek, endOfWeek);
-  console.log("OVERVIEW TASKS:", tasks);
+  const todayTasks = db.prepare(`
+    SELECT
+      tasks.*,
+      courses.name AS course_name
+    FROM tasks
+    JOIN courses ON tasks.course_id = courses.id
+    WHERE tasks.completed = 0
+      AND date(tasks.deadline) = ?
+    ORDER BY tasks.deadline ASC
+  `).all(todayDate);
+
+  const upcomingTasks = db.prepare(`
+    SELECT
+      tasks.*,
+      courses.name AS course_name
+    FROM tasks
+    JOIN courses ON tasks.course_id = courses.id
+    WHERE tasks.completed = 0
+      AND date(tasks.deadline) > ?
+    ORDER BY tasks.deadline ASC
+    LIMIT 3
+  `).all(endOfWeek);
 
   const courses = db
     .prepare("SELECT * FROM courses")
     .all();
 
-  res.render("overview", { tasks, courses });
+  res.render("overview", {
+    tasks,
+    courses,
+    todayTasks,
+    upcomingTasks
+  });
 });
 
 app.get("/calendar", (req, res) => {

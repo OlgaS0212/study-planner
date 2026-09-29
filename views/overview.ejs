@@ -28,9 +28,30 @@
       <div class="overview-grid">
 
         <div class="overview-card">
-          <h2>Dagens uppgifter</h2>
-          <p>Här kommer dagens uppgifter senare.</p>
-        </div>
+  <h2>Dagens uppgifter</h2>
+
+  <% if (todayTasks.length === 0) { %>
+    <p>Inga uppgifter idag.</p>
+  <% } else { %>
+    <% todayTasks.forEach(task => { %>
+
+      <div class="week-item">
+        <span><%= task.title %></span>
+        <span><%= task.course_name %></span>
+        <span><%= task.deadline || "" %></span>
+
+        <form action="/tasks/<%= task.id %>/delete" method="POST">
+          <input type="hidden" name="from" value="overview">
+
+          <button type="submit" class="delete-task-button">
+            Ta bort
+          </button>
+        </form>
+      </div>
+
+    <% }) %>
+  <% } %>
+</div>
 
         <div class="overview-card">
           <h2>Denna veckan</h2>
