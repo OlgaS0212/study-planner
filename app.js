@@ -128,6 +128,21 @@ app.post("/register", (req, res) => {
 
 // Overview
 app.get("/overview", requireLogin, (req, res) => {
+  const today = new Date();
+
+  const day = today.getDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + diffToMonday);
+
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+
+  const startOfWeek = monday.toISOString().slice(0, 10);
+  const endOfWeek = sunday.toISOString().slice(0, 10);
+  const todayDate = today.toISOString().slice(0, 10);
+
   const tasks = db.prepare(`
     SELECT
       tasks.*,
@@ -135,13 +150,55 @@ app.get("/overview", requireLogin, (req, res) => {
     FROM tasks
     JOIN courses ON tasks.course_id = courses.id
     WHERE tasks.completed = 0
-  `).all();
+      AND date(tasks.deadline) BETWEEN ? AND ?
+    ORDER BY tasks.deadline ASC
+  `).all(startOfWeek, endOfWeek);
+
+  const todayTasks = db.prepare(`
+    SELECT
+      tasks.*,
+      courses.name AS course_name
+    FROM tasks
+    JOIN courses ON tasks.course_id = courses.id
+    WHERE tasks.completed = 0
+      AND date(tasks.deadline) = ?
+    ORDER BY tasks.deadline ASC
+  `).all(todayDate);
+
+  const upcomingTasks = db.prepare(`
+    SELECT
+      tasks.*,
+      courses.name AS course_name
+    FROM tasks
+    JOIN courses ON tasks.course_id = courses.id
+    WHERE tasks.completed = 0
+      AND date(tasks.deadline) > ?
+    ORDER BY tasks.deadline ASC
+    LIMIT 3
+  `).all(endOfWeek);
 
   const courses = db
     .prepare("SELECT * FROM courses")
     .all();
 
-  res.render("overview", { tasks, courses });
+  const completedTasks = db.prepare(`
+  SELECT
+    tasks.*,
+    courses.name AS course_name
+  FROM tasks
+  JOIN courses ON tasks.course_id = courses.id
+  WHERE tasks.completed = 1
+  ORDER BY tasks.id DESC
+  LIMIT 5
+`).all();
+
+  res.render("overview", {
+    tasks,
+    courses,
+    todayTasks,
+    upcomingTasks,
+    completedTasks
+  });
 });
 
 app.get("/calendar", (req, res) => {

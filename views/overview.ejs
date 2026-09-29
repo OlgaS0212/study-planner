@@ -16,7 +16,7 @@
     <main class="main-content">
 
       <div class="overview-header">
-        <h1>Hej Emma!</h1>
+        <h1 id="greeting"></h1>
 
         <form action="/logout" method="POST">
           <button type="submit" class="logout-button">
@@ -28,9 +28,30 @@
       <div class="overview-grid">
 
         <div class="overview-card">
-          <h2>Dagens uppgifter</h2>
-          <p>Här kommer dagens uppgifter senare.</p>
-        </div>
+  <h2>Dagens uppgifter</h2>
+
+  <% if (todayTasks.length === 0) { %>
+    <p>Inga uppgifter idag.</p>
+  <% } else { %>
+    <% todayTasks.forEach(task => { %>
+
+      <div class="week-item">
+        <span><%= task.title %></span>
+        <span><%= task.course_name %></span>
+        <span><%= task.deadline || "" %></span>
+
+        <form action="/tasks/<%= task.id %>/delete" method="POST">
+          <input type="hidden" name="from" value="overview">
+
+          <button type="submit" class="delete-task-button">
+            Ta bort
+          </button>
+        </form>
+      </div>
+
+    <% }) %>
+  <% } %>
+</div>
 
         <div class="overview-card">
           <h2>Denna veckan</h2>
@@ -90,20 +111,60 @@
         </div>
 
         <div class="overview-card">
-          <h2>Kommande aktiviteter</h2>
-          <p>Här kommer aktiviteter senare.</p>
-        </div>
+  <h2>Kommande aktiviteter</h2>
 
-        <div class="overview-card">
-          <h2>Senast aktivitet</h2>
-          <p>Här kommer senaste aktivitet senare.</p>
-        </div>
+  <% if (upcomingTasks.length === 0) { %>
+    <p>Inga kommande aktiviteter.</p>
+  <% } else { %>
+    <% upcomingTasks.forEach(task => { %>
+
+      <div class="week-item">
+        <span><%= task.title %></span>
+        <span><%= task.course_name %></span>
+        <span><%= task.deadline || "" %></span>
+      </div>
+
+    <% }) %>
+  <% } %>
+</div>
+      
+
+       <div class="overview-card">
+  <h2>Dina framsteg</h2>
+
+  <% if (completedTasks.length === 0) { %>
+    <p>Inga slutförda uppgifter ännu.</p>
+  <% } else { %>
+    <% completedTasks.forEach(task => { %>
+      <div class="week-item">
+        <span>✓ <%= task.title %></span>
+        <span><%= task.course_name %></span>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
 
       </div>
 
     </main>
 
   </div>
+
+  <script>
+  const hour = new Date().getHours();
+
+  let greeting;
+
+  if (hour < 10) {
+    greeting = "God morgon!";
+  } else if (hour < 18) {
+    greeting = "God dag!";
+  } else {
+    greeting = "God kväll!";
+  }
+
+  document.getElementById("greeting").textContent = greeting;
+</script>
 
   <script src="/js/main.js"></script>
 
