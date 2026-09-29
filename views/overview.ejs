@@ -16,7 +16,7 @@
     <main class="main-content">
 
       <div class="overview-header">
-        <h1>Hej Emma!</h1>
+        <h1 id="greeting"></h1>
 
         <form action="/logout" method="POST">
           <button type="submit" class="logout-button">
@@ -104,6 +104,22 @@
     </main>
 
   </div>
+
+  <script>
+  const hour = new Date().getHours();
+
+  let greeting;
+
+  if (hour < 10) {
+    greeting = "God morgon!";
+  } else if (hour < 18) {
+    greeting = "God dag!";
+  } else {
+    greeting = "God kväll!";
+  }
+
+  document.getElementById("greeting").textContent = greeting;
+</script>
 
   <script src="/js/main.js"></script>
 
