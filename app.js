@@ -128,6 +128,20 @@ app.post("/register", (req, res) => {
 
 // Overview
 app.get("/overview", requireLogin, (req, res) => {
+  const today = new Date();
+
+  const day = today.getDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + diffToMonday);
+
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+
+  const startOfWeek = monday.toISOString().slice(0, 10);
+  const endOfWeek = sunday.toISOString().slice(0, 10);
+
   const tasks = db.prepare(`
     SELECT
       tasks.*,
@@ -135,7 +149,12 @@ app.get("/overview", requireLogin, (req, res) => {
     FROM tasks
     JOIN courses ON tasks.course_id = courses.id
     WHERE tasks.completed = 0
-  `).all();
+      AND date(tasks.deadline) BETWEEN ? AND ?
+    ORDER BY tasks.deadline ASC
+  `).all(startOfWeek, endOfWeek);
+
+  console.log("WEEK:", startOfWeek, endOfWeek);
+  console.log("OVERVIEW TASKS:", tasks);
 
   const courses = db
     .prepare("SELECT * FROM courses")
