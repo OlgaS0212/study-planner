@@ -181,11 +181,23 @@ app.get("/overview", requireLogin, (req, res) => {
     .prepare("SELECT * FROM courses")
     .all();
 
+  const completedTasks = db.prepare(`
+  SELECT
+    tasks.*,
+    courses.name AS course_name
+  FROM tasks
+  JOIN courses ON tasks.course_id = courses.id
+  WHERE tasks.completed = 1
+  ORDER BY tasks.id DESC
+  LIMIT 5
+`).all();
+
   res.render("overview", {
     tasks,
     courses,
     todayTasks,
-    upcomingTasks
+    upcomingTasks,
+    completedTasks
   });
 });
 
