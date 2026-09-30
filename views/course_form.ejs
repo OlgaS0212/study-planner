@@ -14,7 +14,7 @@
             <form action="/courses/new" method="POST" enctype="multipart/form-data">
 
                 <!-- Course name -->
-                <label for="name">Namn</label>  
+                <label for="name">Namn *</label>  
                 <input id="name" type="text" name="name" maxlength="50" required>
 
                 <!-- Course description -->
@@ -26,11 +26,11 @@
                 <input id="c_image" type="file" name="c_image" accept="image/*">
 
                 <!-- Course code -->
-                <label for="course_code">Kurskod</label>  
+                <label for="course_code">Kurskod *</label>  
                 <input id="course_code" type="text" name="course_code" maxlength="15" required>
 
                 <!-- Course level -->
-                <label for="level">Nivå</label>  
+                <label for="level">Nivå *</label>  
                 <select id="level" name="level" required>
                     <option value="" disabled selected>Välj nivå</option>
                     <option value="Grundnivå">Grundnivå</option>
@@ -41,7 +41,7 @@
                 </select>
 
                 <!-- Teaching form -->
-                <label for="teaching_form">Undervisningsform</label>  
+                <label for="teaching_form">Undervisningsform *</label>  
                 <select id="teaching_form" name="teaching_form" required>
                     <option value="" disabled selected>Välj undervisningsform</option>
                     <option value="Distans">Distans</option>
@@ -50,7 +50,7 @@
                 </select>
 
                 <!-- Study pace -->
-                <label for="study_pace">Studietakt</label>  
+                <label for="study_pace">Studietakt *</label>  
                 <select id="study_pace" name="study_pace" required>
                     <option value="" disabled selected>Välj studietakt</option>
                     <option value="100">100%</option>
@@ -60,7 +60,7 @@
                 </select>
 
                 <!-- Grading scale -->
-                <label for="grading_scale">Betygsskala</label>  
+                <label for="grading_scale">Betygsskala *</label>  
                 <select id="grading_scale" name="grading_scale" required>
                     <option value="" disabled selected>Välj betygsskala</option>
                     <option value="MVG">U-MVG</option>

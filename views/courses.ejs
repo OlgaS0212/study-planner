@@ -9,21 +9,21 @@
 </head>
 <body>
     <main>
-        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Öppna meny"> <!-- temporary placement, will be moved to sidebar -->
-          ☰
-        </button>
     <%- include('partials/sidebar') %>
 
     <div class="main-content">
 
-        <div class="topbar">
-            <form action="/logout" method="POST">
-                <button type="submit" class="logout-button">
-                    Logga ut
-                </button>
-            </form>
+        <div class="course-actions">
+            <div class="topbar">
+                <form action="/logout" method="POST">
+                    <button type="submit" class="logout-button">
+                        Logga ut
+                    </button>
+                </form>
+            </div>
+
+            <a href="/courses/new" class="new-course-button">Skapa ny kurs</a>
         </div>
-        <a href="/courses/new" class="new-course-button">Skapa ny kurs</a>
 
         <table class="course-table">
             <tbody>
@@ -96,15 +96,6 @@
 </main>
 
 <script>  
-// JavaScript to toggle the sidebar, will be moved to sidebar or a separate JS file later
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar = document.querySelector('.sidebar');
-
-    sidebarToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('sidebar-open');
-    });
-
-
 // JavaScript to handle course deletion
     async function deleteCourse(event, form) {
     event.preventDefault();

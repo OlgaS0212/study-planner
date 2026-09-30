@@ -99,7 +99,7 @@
   cursor: pointer;
 }
 /* Styles for smaller screens */
-@media (max-width: 1080px) {
+@media (max-width: 1024px) {
   .overview-grid {
     grid-template-columns: 1fr;
   }
