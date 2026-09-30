@@ -119,3 +119,114 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+@media (max-width: 900px) {
+
+    .calendar-header {
+        margin-bottom: 15px;
+    }
+
+    .calendar-header h1 {
+        font-size: 26px;
+    }
+
+    .calendar-header button {
+        width: 40px;
+        height: 40px;
+        font-size: 26px;
+    }
+
+    .calendar-weekdays div {
+        padding: 10px 5px;
+        font-size: 14px;
+    }
+
+    .calendar-day {
+        min-height: 100px;
+        padding: 7px;
+    }
+
+    .date-number {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .calendar-task {
+        font-size: 12px;
+        padding: 4px;
+        margin-bottom: 4px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .calendar-header {
+        margin-bottom: 12px;
+    }
+
+    .calendar-header h1 {
+        font-size: 20px;
+    }
+
+    .calendar-header button {
+        width: 35px;
+        height: 35px;
+        font-size: 22px;
+        border-radius: 6px;
+    }
+
+    .calendar-weekdays div {
+        padding: 8px 2px;
+        font-size: 11px;
+    }
+
+    .calendar-day {
+        min-height: 80px;
+        padding: 5px;
+    }
+
+    .date-number {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .calendar-task {
+        font-size: 10px;
+        padding: 3px;
+        margin-bottom: 3px;
+        border-radius: 4px;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    .calendar-header h1 {
+        font-size: 18px;
+    }
+
+    .calendar-header button {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+    }
+
+    .calendar-weekdays div {
+        font-size: 10px;
+        padding: 7px 1px;
+    }
+
+    .calendar-day {
+        min-height: 70px;
+        padding: 4px;
+    }
+
+    .date-number {
+        font-size: 11px;
+    }
+
+    .calendar-task {
+        font-size: 9px;
+        padding: 2px;
+    }
+}
